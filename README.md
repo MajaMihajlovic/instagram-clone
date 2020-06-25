@@ -1,5 +1,5 @@
 # instagram-clone
-Instragram clone created using MERN stack (MongoDB, Express.js, React.js and Node.js)
+Instagram clone created using MERN stack (MongoDB, Express.js, React.js and Node.js)
 
 To start server application type: 
 
