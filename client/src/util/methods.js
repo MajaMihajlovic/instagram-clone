@@ -1,17 +1,16 @@
 const defaultOptions = {
-    credentials: 'same-origin'
+    credentials: "same-origin",
 };
 
 function urlEncode(params) {
     return Object.keys(params)
-        .map(k => encodeURIComponent(k) + '=' + encodeURIComponent(params[k]))
-        .join('&');
+        .map((k) => encodeURIComponent(k) + "=" + encodeURIComponent(params[k]))
+        .join("&");
 }
 
 export function resolveAPIUrl(path, query) {
-    let qs = '';
-    if (typeof query == 'object' && query)
-        qs = '?' + urlEncode(query);
+    let qs = "";
+    if (typeof query == "object" && query) qs = "?" + urlEncode(query);
     return path + qs;
 }
 
@@ -27,7 +26,7 @@ export async function checkOk(r) {
     //     if (data)
     //         if (data.errorCode) {
     //             // Handle specific errors here
-               
+
     //         }
     //         else if (data.error) {
     //             throw new Error(data.error);
@@ -43,85 +42,98 @@ export async function checkOk(r) {
 
 export async function doFetch(path, opt = {}, hints = {}) {
     let options = {
-        method: 'GET',
+        method: "GET",
         ...opt,
         headers: {
-            ...opt.headers
-        }
+            ...opt.headers,
+        },
     };
-    let token = localStorage.getItem('jwt');
+    let token = localStorage.getItem("jwt");
     if (token) {
-        options.headers['Authorization'] = `Bearer ${token}`;
+        options.headers["Authorization"] = `Bearer ${token}`;
     }
 
     try {
         let response = await fetch(resolveAPIUrl(path, opt && opt.query), options);
         response = checkOk(response);
-        if (hints.checkResponse)
-            hints.checkResponse(response);
+        if (hints.checkResponse) hints.checkResponse(response);
         return response;
-    }
-    catch (e) {
+    } catch (e) {
         if (!e.response) {
-            e.message = "Check connection."
+            e.message = "Check connection.";
         }
         throw e;
     }
 }
 
 export function GET(url, hints) {
-    return doFetch(url, {
-        ...defaultOptions,
-        headers: {
-            'Accept': 'application/json'
-        }
-    }, hints)
-        .then(x => x.json());
+    return doFetch(
+        url,
+        {
+            ...defaultOptions,
+            headers: {
+                Accept: "application/json",
+            },
+        },
+        hints
+    ).then((x) => x.json());
 }
 
-
 export function PATCH(url, data, hints) {
-    return doFetch(url, {
-        ...defaultOptions,
-        method: 'PATCH',
-        headers: {
-            'Content-Type': 'application/json'
+    return doFetch(
+        url,
+        {
+            ...defaultOptions,
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data, null, 2),
         },
-        body: JSON.stringify(data, null, 2)
-    }, hints)
-        .then(x => x.json());
-    ;
+        hints
+    ).then((x) => x.json());
 }
 
 export function POST(url, data, hints) {
-    return doFetch(url, {
-        ...defaultOptions,
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json'
+    return doFetch(
+        url,
+        {
+            ...defaultOptions,
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                Accept: "application/json",
+            },
+            body: JSON.stringify(data, null, 2),
         },
-        body: JSON.stringify(data, null, 2)
-    }, hints)
-        .then(x => x.json());
+        hints
+    ).then((x) => x.json());
 }
 
 export function PUT(url, data, hints) {
-    return doFetch(url, {
-        ...defaultOptions,
-        method: 'PUT',
-        headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json'
+    return doFetch(
+        url,
+        {
+            ...defaultOptions,
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+                Accept: "application/json",
+            },
+            body: JSON.stringify(data, null, 2),
         },
-        body: JSON.stringify(data, null, 2)
-    }, hints);
+        hints
+    );
 }
 
 export function DELETE(url, hints) {
-    return doFetch(url, {
-        ...defaultOptions,
-        method: 'DELETE',
-        headers: {}
-    }, hints);
+    return doFetch(
+        url,
+        {
+            ...defaultOptions,
+            method: "DELETE",
+            headers: {},
+        },
+        hints
+    );
 }

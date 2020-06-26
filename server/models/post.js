@@ -4,20 +4,20 @@ const { ObjectId } = mongoose.Schema.Types;
 const postSchema = new mongoose.Schema({
     title: {
         type: String,
-        required: true
+        required: true,
     },
     body: {
         type: String,
-        required: true
+        required: true,
     },
     photo: {
         type: String,
-        required: true
+        required: true,
     },
     postedBy: {
         type: ObjectId,
-        ref: "User"
-    }
+        ref: "User",
+    },
 });
 
 mongoose.model("Post", postSchema);
