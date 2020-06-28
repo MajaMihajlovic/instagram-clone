@@ -5,13 +5,29 @@ import { UserContext } from "./../App";
 const Navbar = () => {
     const { state, dispatch } = useContext(UserContext);
     const renderList = () => {
+        console.log(state);
+
         if (state) {
             return [
+                <li>
+                    <Link to="/">Home</Link>
+                </li>,
                 <li>
                     <Link to="/profile">Profile</Link>
                 </li>,
                 <li>
                     <Link to="/create">Create Post</Link>
+                </li>,
+                <li>
+                    <button
+                        className="btn #c62828 red darken-3"
+                        onClick={() => {
+                            localStorage.clear();
+                            dispatch({ type: "CLEAR" });
+                        }}
+                    >
+                        Logout
+                    </button>
                 </li>,
             ];
         } else {
@@ -32,7 +48,7 @@ const Navbar = () => {
                     Instagram
                 </Link>
                 <ul id="nav-mobile" className="right">
-                    {renderList}
+                    {renderList()}
                 </ul>
             </div>
         </nav>

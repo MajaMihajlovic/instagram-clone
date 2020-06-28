@@ -9,7 +9,7 @@ const SignIn = () => {
     const history = useHistory();
     const [password, setPassword] = useState("");
     const [email, setEmail] = useState("");
-    const { state, dispatch } = useContext(UserContext);
+    const { dispatch } = useContext(UserContext);
 
     async function signIn() {
         if (!emailRegex.test(email)) {

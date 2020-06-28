@@ -10,15 +10,16 @@ const CreatePost = () => {
     const [image, setImage] = useState("");
     const [url, setUrl] = useState("");
 
-    //this is trigger?
-    useEffect(async () => {
+    useEffect(() => {
         if (url) {
-            let post = await POST("/createpost", {
-                title,
-                body,
-                url,
-            });
-
+            async function createPost() {
+                return await POST("/createpost", {
+                    title,
+                    body,
+                    url,
+                });
+            }
+            let post = createPost();
             if (post.error) {
                 M.toast({ html: post.error, classes: "#c62828 red darken-3" });
             } else {

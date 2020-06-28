@@ -7,19 +7,18 @@ import SignIn from "./routes/SignIn";
 import Profile from "./routes/Profile";
 import SignUp from "./routes/SignUp";
 import CreatePost from "./routes/CreatePost";
-import { initialState, reducer } from "./reducers/userReduces";
+import { initialState, reducer } from "./reducers/userReducer";
 
 export const UserContext = createContext();
 
 const Routing = () => {
     const history = useHistory();
-    const { state, dispatch } = useContext(UserContext);
+    const { dispatch } = useContext(UserContext);
     useEffect(() => {
         const user = JSON.parse(localStorage.getItem("user"));
-
         if (user) {
             dispatch({ type: "USER", payload: user });
-            history.push("/");
+            // history.push("/");
         } else {
             history.push("/signin");
         }
@@ -46,7 +45,7 @@ const Routing = () => {
 };
 
 function App() {
-    const { state, dispatch } = useReducer(reducer, initialState);
+    const [state, dispatch] = useReducer(reducer, initialState);
     return (
         <UserContext.Provider value={{ state, dispatch }}>
             <BrowserRouter>
