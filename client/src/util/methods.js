@@ -15,27 +15,22 @@ export function resolveAPIUrl(path, query) {
 }
 
 export async function checkOk(r) {
-    // if (r.status >= 400) {
-    //     let data = null;
-    //     try {
-    //         data = await r.json();
-    //     }
-    //     catch (e) {
-    //     }
+    if (r.status >= 400) {
+        let data = null;
+        try {
+            data = await r.json();
+        } catch (e) {}
 
-    //     if (data)
-    //         if (data.errorCode) {
-    //             // Handle specific errors here
+        if (data)
+            if (data.errorCode) {
+                // Handle specific errors here
+            } else if (data.error) {
+                throw new Error(data.error);
+            }
 
-    //         }
-    //         else if (data.error) {
-    //             throw new Error(data.error);
-    //         }
-
-    //     let errorMsg = r.headers.get("error");
-    //     if (errorMsg)
-    //         throw new Error(errorMsg);
-    // }
+        let errorMsg = r.headers.get("error");
+        if (errorMsg) throw new Error(errorMsg);
+    }
 
     return r;
 }
@@ -123,7 +118,7 @@ export function PUT(url, data, hints) {
             body: JSON.stringify(data, null, 2),
         },
         hints
-    );
+    ).then((x) => x.json());
 }
 
 export function DELETE(url, hints) {
@@ -135,5 +130,5 @@ export function DELETE(url, hints) {
             headers: {},
         },
         hints
-    );
+    ).then((x) => x.json());
 }

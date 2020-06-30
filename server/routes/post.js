@@ -7,6 +7,7 @@ const Post = mongoose.model("Post");
 router.get("/allpost", requiredLogin, (req, res) => {
     Post.find()
         .populate("postedBy", "_id name")
+        .populate("comments.postedBy", "_id name")
         .then((posts) => {
             res.json({ posts });
         })
@@ -44,5 +45,68 @@ router.post("/createpost", requiredLogin, (req, res) => {
         })
         .catch((err) => console.log(err));
 });
+
+router.put("/like", requiredLogin, (req, res) => {
+    Post.findByIdAndUpdate(
+        req.body.postId,
+        {
+            $push: { likes: req.user._id },
+        },
+        {
+            new: true,
+        }
+    ).exec((err, result) => {
+        if (err) res.status(422).json({ error: err });
+        else res.json(result);
+    });
+});
+
+router.put("/unlike", requiredLogin, (req, res) => {
+    Post.findByIdAndUpdate(
+        req.body.postId,
+        {
+            $pull: { likes: req.user._id },
+        },
+        {
+            new: true,
+        }
+    ).exec((err, result) => {
+        if (err) res.status(422).json({ error: err });
+        else res.json(result);
+    });
+});
+
+router.put("/comment", requiredLogin, (req, res) => {
+    const comment = {
+        text: req.body.text,
+        postedBy: req.user._id,
+    };
+    Post.findByIdAndUpdate(
+        req.body.postId,
+        {
+            $push: { comments: comment },
+        },
+        {
+            new: true,
+        }
+    )
+        .populate("postedBy", "_id name")
+        .populate("comments.postedBy", "_id name")
+        .exec((err, result) => {
+            if (err) res.status(422).json({ error: err });
+            else res.json(result);
+        });
+});
+
+// router.delete("/deletepost/:postId", requiredLogin, (req, res) => {
+//     // Post.findOne({ _id: req.body.postId })
+//     //     .populate("postedBy", "_id name")
+//     //     .exec((err, post) => {
+//     //         if (err || !post) res.status(422).json({ error: err });
+//     //         if (post.postedBy._id.toString() == req.user._id.toString()) post.remove();
+//     //     })
+//     //     .then((result) => res.json(result))
+//     //     .catch((err) => console.log(err));
+// });
 
 module.exports = router;

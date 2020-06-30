@@ -3,9 +3,11 @@
 # dependencies
 /node_modules
 server/node_modules/prettier
+server/node_modules
 /.pnp
 .pnp.js
 .prettierrc
+dev.js
 
 # testing
 /coverage

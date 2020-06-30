@@ -4,7 +4,7 @@ const router = express.Router();
 const User = mongoose.model("User");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const { JWT_SECRET } = require("../keys");
+const { JWT_SECRET } = require("../config/keys");
 
 router.post("/signup", (req, res) => {
     const { name, email, password } = req.body;
