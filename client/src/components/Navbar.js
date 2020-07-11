@@ -1,11 +1,13 @@
 import React, { useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { UserContext } from "./../App";
 
 const Navbar = () => {
     const { state, dispatch } = useContext(UserContext);
+    const history = useHistory();
+    
     const renderList = () => {
-        console.log(state);
+        console.log("state" + state);
 
         if (state) {
             return [
@@ -24,6 +26,7 @@ const Navbar = () => {
                         onClick={() => {
                             localStorage.clear();
                             dispatch({ type: "CLEAR" });
+                            history.push("/");
                         }}
                     >
                         Logout
