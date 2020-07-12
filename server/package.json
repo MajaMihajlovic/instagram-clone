@@ -8,8 +8,7 @@
         "client": "npm run start --prefix client",
         "server": "nodemon app",
         "dev": "concurrently --kill-others-on-fail \"npm run server\" \"npm run client\"",
-        "start": "node app.js",
-        "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false cd ../client && npm install && npm run build && cp -R build/* ../server/client/build/"
+        "start": "node app.js"
     },
     "author": "",
     "license": "ISC",

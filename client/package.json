@@ -2,7 +2,6 @@
     "name": "client",
     "version": "0.1.0",
     "private": true,
-    "proxy": "http://localhost:5000",
     "dependencies": {
         "@testing-library/jest-dom": "^4.2.4",
         "@testing-library/react": "^9.3.2",
@@ -14,11 +13,9 @@
         "react-scripts": "3.4.1"
     },
     "scripts": {
-        "start": "react-scripts start",
-        "build": "react-scripts build",
-        "test": "react-scripts test",
-        "eject": "react-scripts eject",
-        "postinstall": "react-scripts build"
+        "start": "webpack-dev-server --config config/webpack.dev.js --open",
+        "build": "webpack --config config/webpack.prod.js",
+        "build:netlify": "webpack --config config/webpack.netlify.js"
     },
     "engines": {
         "node": "~10.16.3",
@@ -40,6 +37,24 @@
         ]
     },
     "devDependencies": {
-        "prettier": "2.0.5"
+        "prettier": "2.0.5",
+        "@babel/core": "^7.10.4",
+        "@babel/preset-env": "^7.10.4",
+        "babel-loader": "^8.0.5",
+        "copy-webpack-plugin": "^6.0.3",
+        "css-loader": "^3.6.0",
+        "file-loader": "^6.0.0",
+        "html-webpack-plugin": "^4.3.0",
+        "json-loader": "^0.5.4",
+        "mini-css-extract-plugin": "^0.9.0",
+        "msw": "^0.19.3",
+        "node-sass": "^4.14.1",
+        "postcss-loader": "^3.0.0",
+        "sass-loader": "^9.0.1",
+        "style-loader": "^1.2.1",
+        "webpack": "^4.20.2",
+        "webpack-cli": "^3.3.12",
+        "webpack-dev-server": "^3.11.0",
+        "webpack-merge": "^4.1.0"
     }
 }

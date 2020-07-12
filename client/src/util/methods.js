@@ -1,3 +1,5 @@
+let apiBaseUrl = '/api';
+
 const defaultOptions = {
     credentials: "same-origin",
 };
@@ -11,7 +13,7 @@ function urlEncode(params) {
 export function resolveAPIUrl(path, query) {
     let qs = "";
     if (typeof query == "object" && query) qs = "?" + urlEncode(query);
-    return path + qs;
+    return apiBaseUrl + path + qs;
 }
 
 export async function checkOk(r) {
