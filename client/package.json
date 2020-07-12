@@ -18,7 +18,7 @@
         "build:netlify": "webpack --config config/webpack.netlify.js"
     },
     "engines": {
-        "node": "~10.16.3",
+        "node": "~12.18.3",
         "npm": "~6.9.0"
     },
     "eslintConfig": {
